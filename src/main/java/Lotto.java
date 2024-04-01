@@ -44,6 +44,10 @@ public class Lotto {
         });
     }
 
+    public boolean contains(int number) {
+        return pickedNumbers.contains(number);
+    }
+
     public List<Integer> numbers() {
         return Collections.unmodifiableList(pickedNumbers);
     }
