@@ -1,14 +1,23 @@
 public class LottoMachine {
-    private static final int LOTTO_PRICE = 1000;
-
     private final Lottos lottos;
+    private final WinningLotto winningLotto;
 
-    public LottoMachine(int cash) {
-        int numberOfLotto = cash / LOTTO_PRICE;
-        lottos = new Lottos(numberOfLotto);
+    public LottoMachine(Lottos lottos, WinningLotto winningLotto) {
+        this.lottos = lottos;
+        this.winningLotto = winningLotto;
     }
 
     public Lottos boughtLottos() {
         return lottos;
+    }
+
+    public int prize() {
+        return lottos.values().stream()
+                .mapToInt(e -> WinningResult.checkResult(e, winningLotto).prize())
+                .sum();
+    }
+
+    public double revenueRate() {
+        return (double) prize() / (lottos.values().size() * 1000);
     }
 }

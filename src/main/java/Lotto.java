@@ -1,7 +1,4 @@
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -55,5 +52,18 @@ public class Lotto {
     public static List<Integer> randomNumbers() {
         Collections.shuffle(CANDIDATE_NUMBERS);
         return CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lotto lotto = (Lotto) o;
+        return Objects.equals(pickedNumbers, lotto.pickedNumbers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pickedNumbers);
     }
 }

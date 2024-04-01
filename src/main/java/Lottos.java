@@ -5,6 +5,10 @@ import java.util.stream.IntStream;
 public class Lottos {
     private final List<Lotto> lottos;
 
+    public Lottos(List<Lotto> lottos) {
+        this.lottos = lottos;
+    }
+
     public Lottos(int numberOfLotto) {
         validateNumberOfLotto(numberOfLotto);
         lottos = new ArrayList<>();

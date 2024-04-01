@@ -4,6 +4,7 @@ public enum WinningResult {
     THIRD(5, false, 1_500_000),
     FORTH(4, false, 50_000),
     FIFTH(3, false, 5_000),
+    NONE(0, false, 0),
     ;
 
     private final int regularBallMatches;
@@ -16,15 +17,19 @@ public enum WinningResult {
         this.prize = prize;
     }
 
-    public static WinningResult checkResult(Lotto bought, Lotto winning, int bonusNumber) {
+    public int prize() {
+        return prize;
+    }
+
+    public static WinningResult checkResult(Lotto bought,WinningLotto winningLotto) {
         int regularBallMatches = 0;
 
         for (Integer number : bought.numbers()) {
-            if (winning.numbers().contains(number)) {
+            if (winningLotto.containsNumber(number)) {
                 regularBallMatches++;
             }
         }
-        boolean isBonusBallMatches = bought.contains(bonusNumber);
+        boolean isBonusBallMatches = winningLotto.containsBonus(bought);
 
         return fromBallMatches(regularBallMatches, isBonusBallMatches);
     }
