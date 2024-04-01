@@ -48,7 +48,7 @@ public class Lotto {
         return Collections.unmodifiableList(pickedNumbers);
     }
 
-    private List<Integer> randomNumbers() {
+    public static List<Integer> randomNumbers() {
         Collections.shuffle(CANDIDATE_NUMBERS);
         return CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX);
     }

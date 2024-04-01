@@ -9,13 +9,13 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("Lotto 객체 관련 테스트")
 public class LottoTest {
     @Test
-    void Lotto_객체를_생성() {
+    void Lotto_객체를_생성한다() {
         Lotto lotto = Lotto.issue();
         assertThatCode(() -> Objects.requireNonNull(lotto)).doesNotThrowAnyException();
     }
 
     @Test
-    void Lotto에서_생성된_번호들의_크기가_6개() {
+    void Lotto에서_생성된_번호들의_크기가_6개이다() {
         Lotto lotto = Lotto.issue();
         assertThat(lotto.numbers().size()).isEqualTo(6);
     }
