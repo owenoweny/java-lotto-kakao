@@ -30,19 +30,13 @@ public class Lotto {
                 .collect(Collectors.toList());
     }
 
-    public static Lotto issue() {
-        return new Lotto();
+    public static List<LottoNumber> randomNumbers() {
+        Collections.shuffle(CANDIDATE_NUMBERS);
+        return parsePickedNumbers(CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX));
     }
 
     public WinningResult compare(WinningLotto winningLotto) {
         return WinningResult.of(this, winningLotto);
-    }
-
-    private void validateDuplication(List<LottoNumber> pickedNumbers) {
-        Set<LottoNumber> set = new HashSet<>(pickedNumbers);
-        if (pickedNumbers.size() != set.size()) {
-            throw new RuntimeException("로또 번호는 중복될 수 없습니다.");
-        }
     }
 
     public boolean contains(LottoNumber number) {
@@ -53,9 +47,11 @@ public class Lotto {
         return Collections.unmodifiableList(pickedNumbers);
     }
 
-    public static List<LottoNumber> randomNumbers() {
-        Collections.shuffle(CANDIDATE_NUMBERS);
-        return parsePickedNumbers(CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX));
+    private void validateDuplication(List<LottoNumber> pickedNumbers) {
+        Set<LottoNumber> set = new HashSet<>(pickedNumbers);
+        if (pickedNumbers.size() != set.size()) {
+            throw new RuntimeException("로또 번호는 중복될 수 없습니다.");
+        }
     }
 
     @Override
