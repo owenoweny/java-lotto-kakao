@@ -9,17 +9,25 @@ public class Lotto {
     private static final int RANDOM_BEGIN_INCLUDE_INDEX = 0;
     private static final int RANDOM_END_EXCLUDE_INDEX = 6;
 
-    private final List<Integer> pickedNumbers;
+    public Lotto(List<LottoNumber> numbers) {
+        validateDuplication(numbers);
+        this.pickedNumbers = numbers;
+    }
+
+    private final List<LottoNumber> pickedNumbers;
 
     private Lotto() {
         this.pickedNumbers = randomNumbers();
     }
 
-    public Lotto(List<Integer> pickedNumbers) {
-        validateNumberRange(pickedNumbers);
-        validateDuplication(pickedNumbers);
+    public static Lotto from(List<Integer> pickedNumbers) {
+        return new Lotto(parsePickedNumbers(pickedNumbers));
+    }
 
-        this.pickedNumbers = pickedNumbers;
+    private static List<LottoNumber> parsePickedNumbers(List<Integer> pickedNumbers) {
+        return pickedNumbers.stream()
+                .map(LottoNumber::new)
+                .collect(Collectors.toList());
     }
 
     public static Lotto issue() {
@@ -30,32 +38,24 @@ public class Lotto {
         return WinningResult.of(this, winningLotto);
     }
 
-    private void validateDuplication(List<Integer> pickedNumbers) {
-        Set<Integer> set = new HashSet<>(pickedNumbers);
+    private void validateDuplication(List<LottoNumber> pickedNumbers) {
+        Set<LottoNumber> set = new HashSet<>(pickedNumbers);
         if (pickedNumbers.size() != set.size()) {
             throw new RuntimeException("로또 번호는 중복될 수 없습니다.");
         }
     }
 
-    private static void validateNumberRange(List<Integer> pickedNumbers) {
-        pickedNumbers.forEach(number -> {
-            if (number > 45 || number < 1) {
-                throw new RuntimeException("로또 번호는 1에서 45 사이여야 합니다.");
-            }
-        });
-    }
-
-    public boolean contains(int number) {
+    public boolean contains(LottoNumber number) {
         return pickedNumbers.contains(number);
     }
 
-    public List<Integer> numbers() {
+    public List<LottoNumber> numbers() {
         return Collections.unmodifiableList(pickedNumbers);
     }
 
-    public static List<Integer> randomNumbers() {
+    public static List<LottoNumber> randomNumbers() {
         Collections.shuffle(CANDIDATE_NUMBERS);
-        return CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX);
+        return parsePickedNumbers(CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX));
     }
 
     @Override

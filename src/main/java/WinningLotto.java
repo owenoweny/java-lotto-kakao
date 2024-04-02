@@ -1,8 +1,8 @@
 public class WinningLotto {
     private final Lotto lotto;
-    private final int bonusNumber;
+    private final LottoNumber bonusNumber;
 
-    public WinningLotto(Lotto lotto, int bonusNumber) {
+    public WinningLotto(Lotto lotto, LottoNumber bonusNumber) {
         this.lotto = lotto;
         this.bonusNumber = bonusNumber;
     }
@@ -11,11 +11,11 @@ public class WinningLotto {
         return lotto;
     }
 
-    public int bonus() {
+    public LottoNumber bonus() {
         return bonusNumber;
     }
 
-    public boolean containsNumber(int number) {
+    public boolean containsNumber(LottoNumber number) {
         return lotto.contains(number);
     }
 

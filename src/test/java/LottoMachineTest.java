@@ -13,7 +13,7 @@ public class LottoMachineTest {
     void setUp() {
         lottoMachine = new LottoMachine(
                 new Lottos(generateLottoData()),
-                new WinningLotto(new Lotto(List.of(1, 2, 3, 4, 5, 6)), 7)
+                new WinningLotto(Lotto.from(List.of(1, 2, 3, 4, 5, 6)), new LottoNumber(7))
         );
     }
 
@@ -38,12 +38,12 @@ public class LottoMachineTest {
 
     private List<Lotto> generateLottoData() {
         return List.of(
-                new Lotto(List.of(1, 2, 3, 4, 5, 6)),
-                new Lotto(List.of(1, 2, 3, 4, 5, 7)),
-                new Lotto(List.of(1, 2, 3, 4, 5, 8)),
-                new Lotto(List.of(1, 2, 3, 4, 9, 8)),
-                new Lotto(List.of(4, 5, 6, 8, 9, 10)),
-                new Lotto(List.of(10, 11, 12, 13, 14, 15))
+                Lotto.from(List.of(1, 2, 3, 4, 5, 6)),
+                Lotto.from(List.of(1, 2, 3, 4, 5, 7)),
+                Lotto.from(List.of(1, 2, 3, 4, 5, 8)),
+                Lotto.from(List.of(1, 2, 3, 4, 9, 8)),
+                Lotto.from(List.of(4, 5, 6, 8, 9, 10)),
+                Lotto.from(List.of(10, 11, 12, 13, 14, 15))
         );
     }
 }
