@@ -7,9 +7,9 @@ public enum WinningResult {
     NONE(0, false, 0),
     ;
 
-    private final int regularBallMatches;
-    private final boolean needBonusBall;
-    private final int prize;
+    public final int regularBallMatches;
+    public final boolean needBonusBall;
+    public final int prize;
 
     WinningResult(int regularBallMatches, boolean needBonusBall, int prize) {
         this.regularBallMatches = regularBallMatches;
@@ -22,10 +22,10 @@ public enum WinningResult {
     }
 
     public static WinningResult of(Lotto bought, WinningLotto winningLotto) {
+        boolean isBonusBallMatches = winningLotto.containsBonus(bought);
         int regularBallMatches = (int) bought.numbers()
                 .stream()
                 .filter(winningLotto::containsNumber).count();
-        boolean isBonusBallMatches = winningLotto.containsBonus(bought);
 
         return fromBallMatches(regularBallMatches, isBonusBallMatches);
     }

@@ -7,14 +7,6 @@ public class WinningLotto {
         this.bonusNumber = bonusNumber;
     }
 
-    public Lotto lotto() {
-        return lotto;
-    }
-
-    public LottoNumber bonus() {
-        return bonusNumber;
-    }
-
     public boolean containsNumber(LottoNumber number) {
         return lotto.contains(number);
     }
