@@ -9,30 +9,30 @@ public class Lotto {
     private static final int RANDOM_BEGIN_INCLUDE_INDEX = 0;
     private static final int RANDOM_END_EXCLUDE_INDEX = 6;
 
+    private final List<LottoNumber> lottoNumbers;
+
     public Lotto(List<LottoNumber> numbers) {
         validateDuplication(numbers);
-        this.pickedNumbers = numbers;
+        this.lottoNumbers = numbers;
     }
 
-    private final List<LottoNumber> pickedNumbers;
-
     private Lotto() {
-        this.pickedNumbers = randomNumbers();
+        this.lottoNumbers = randomNumbers();
     }
 
     public static Lotto from(List<Integer> pickedNumbers) {
-        return new Lotto(parsePickedNumbers(pickedNumbers));
-    }
-
-    private static List<LottoNumber> parsePickedNumbers(List<Integer> pickedNumbers) {
-        return pickedNumbers.stream()
-                .map(LottoNumber::new)
-                .collect(Collectors.toList());
+        return new Lotto(LottoUtils.parsePickedNumbers(pickedNumbers));
     }
 
     public static List<LottoNumber> randomNumbers() {
         Collections.shuffle(CANDIDATE_NUMBERS);
-        return parsePickedNumbers(CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX));
+        return LottoUtils.parsePickedNumbers(CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX));
+    }
+
+    public List<Integer> values() {
+        return lottoNumbers.stream()
+                .map(LottoNumber::value)
+                .collect(Collectors.toList());
     }
 
     public WinningResult compare(WinningLotto winningLotto) {
@@ -40,11 +40,11 @@ public class Lotto {
     }
 
     public boolean contains(LottoNumber number) {
-        return pickedNumbers.contains(number);
+        return lottoNumbers.contains(number);
     }
 
     public List<LottoNumber> numbers() {
-        return Collections.unmodifiableList(pickedNumbers);
+        return Collections.unmodifiableList(lottoNumbers);
     }
 
     private void validateDuplication(List<LottoNumber> pickedNumbers) {
@@ -59,11 +59,11 @@ public class Lotto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lotto lotto = (Lotto) o;
-        return Objects.equals(pickedNumbers, lotto.pickedNumbers);
+        return Objects.equals(lottoNumbers, lotto.lottoNumbers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pickedNumbers);
+        return Objects.hash(lottoNumbers);
     }
 }

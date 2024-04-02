@@ -2,9 +2,14 @@ import java.util.Objects;
 
 public class LottoNumber {
     private final int number;
+
     public LottoNumber(int number) {
         validateNumberRange(number);
         this.number = number;
+    }
+
+    public int value() {
+        return number;
     }
 
     private static void validateNumberRange(int number) {
