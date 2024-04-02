@@ -14,13 +14,10 @@ public class LottoController {
         int money = lottoConsoleView.getMoneyInput();
         Lottos lottos = LottoMachine.issue(money);
         lottoConsoleView.printIssuedLottos(lottos);
-
         List<Integer> winningNumbersInput = lottoConsoleView.getWinningNumbersInput();
         int bonusBallInput = lottoConsoleView.getBonusBallInput();
-
         WinningLotto winningLotto = new WinningLotto(Lotto.from(winningNumbersInput), new LottoNumber(bonusBallInput));
         LottoManager lottoManager = new LottoManager(lottos, winningLotto);
-
         lottoConsoleView.printWinningResult(lottoManager.winningResults());
         lottoConsoleView.printRevenue(lottoManager.revenueRate());
     }

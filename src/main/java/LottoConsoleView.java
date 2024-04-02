@@ -44,7 +44,6 @@ public class LottoConsoleView {
 
     public void printWinningResult(List<WinningResult> winningResults) {
         System.out.println("당첨 통계\n" + "---------");
-
         List<WinningResult> winningResultValues = Arrays.stream(WinningResult.values()).collect(Collectors.toList());
         winningResultValues.remove(WinningResult.NONE);
         Collections.reverse(winningResultValues);

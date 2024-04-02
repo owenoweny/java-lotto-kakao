@@ -11,17 +11,17 @@ public class LottoManager {
         this.winningLotto = winningLotto;
     }
 
-    public int prize() {
-        return winningResults().stream()
-                .mapToInt(WinningResult::prize)
-                .sum();
-    }
-
     public List<WinningResult> winningResults() {
         return lottos.compare(winningLotto);
     }
 
     public double revenueRate() {
-        return (double) prize() / (lottos.values().size() * 1000);
+        return (double) calculatePrize() / (lottos.values().size() * 1000);
+    }
+
+    private int calculatePrize() {
+        return winningResults().stream()
+                .mapToInt(WinningResult::prize)
+                .sum();
     }
 }

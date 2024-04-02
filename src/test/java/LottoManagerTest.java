@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("domains.LottoMachine 관련 테스트")
 public class LottoManagerTest {
     private LottoManager lottoManager;
+
     @BeforeEach
     void setUp() {
         lottoManager = new LottoManager(
@@ -25,11 +26,6 @@ public class LottoManagerTest {
                     .filteredOn(value::equals)
                     .hasSize(1);
         }
-    }
-
-    @Test
-    void 로또_당첨으로_얻은_금액을_반환한다() {
-        assertThat(lottoManager.prize()).isEqualTo(2_031_555_000);
     }
 
     @Test

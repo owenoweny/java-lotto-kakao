@@ -22,6 +22,7 @@ public class LottoMachine {
         List<Lotto> lottoList = IntStream.range(0, numberOfLottos)
                 .mapToObj(i -> generateLotto())
                 .collect(Collectors.toList());
+
         return new Lottos(lottoList);
     }
 

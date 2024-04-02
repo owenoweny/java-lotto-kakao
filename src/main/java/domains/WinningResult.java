@@ -1,5 +1,7 @@
 package domains;
 
+import java.util.Arrays;
+
 public enum WinningResult {
     FIRST(6, false, 2_000_000_000),
     SECOND(5, true, 30_000_000),
@@ -24,7 +26,7 @@ public enum WinningResult {
     }
 
     public static WinningResult of(Lotto bought, WinningLotto winningLotto) {
-        boolean isBonusBallMatches = winningLotto.containsBonus(bought);
+        boolean isBonusBallMatches = winningLotto.containsBonusNumber(bought);
         int regularBallMatches = (int) bought.numbers()
                 .stream()
                 .filter(winningLotto::containsNumber).count();
@@ -33,18 +35,13 @@ public enum WinningResult {
     }
 
     private static WinningResult fromBallMatches(int regularBallMatches, boolean isBonusBallMatches) {
-        if (regularBallMatches < 3) {
+        if (regularBallMatches < WinningResult.FIFTH.regularBallMatches) {
             return NONE;
         }
-        for (WinningResult winningResult : WinningResult.values()) {
-            if (winningResult.regularBallMatches != regularBallMatches) {
-                continue;
-            }
-            if (winningResult.needBonusBall && !isBonusBallMatches) {
-                continue;
-            }
-            return winningResult;
-        }
-        throw new RuntimeException("올바르지 않은 입력입니다.");
+        return Arrays.stream(WinningResult.values())
+                .filter(value -> value.regularBallMatches == regularBallMatches)
+                .filter(value -> !value.needBonusBall || isBonusBallMatches)
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("올바르지 않은 입력입니다."));
     }
 }
