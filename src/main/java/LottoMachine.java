@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class LottoMachine {
     private final Lottos lottos;
     private final WinningLotto winningLotto;
@@ -7,17 +9,17 @@ public class LottoMachine {
         this.winningLotto = winningLotto;
     }
 
-    public Lottos boughtLottos() {
-        return lottos;
-    }
-
     public int prize() {
-        return lottos.values().stream()
-                .mapToInt(e -> WinningResult.checkResult(e, winningLotto).prize())
+        return winningResults().stream()
+                .mapToInt(WinningResult::prize)
                 .sum();
     }
 
     public double revenueRate() {
         return (double) prize() / (lottos.values().size() * 1000);
+    }
+
+    public List<WinningResult> winningResults() {
+        return lottos.compare(winningLotto);
     }
 }

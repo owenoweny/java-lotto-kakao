@@ -29,6 +29,10 @@ public enum WinningResult {
                 regularBallMatches++;
             }
         }
+    public static WinningResult of(Lotto bought, WinningLotto winningLotto) {
+        int regularBallMatches = (int) bought.numbers()
+                .stream()
+                .filter(winningLotto::containsNumber).count();
         boolean isBonusBallMatches = winningLotto.containsBonus(bought);
 
         return fromBallMatches(regularBallMatches, isBonusBallMatches);

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Lottos {
@@ -14,6 +15,12 @@ public class Lottos {
         lottos = new ArrayList<>();
         IntStream.range(0, numberOfLotto)
                 .forEach(e -> lottos.add(new Lotto(Lotto.randomNumbers())));
+    }
+
+    public List<WinningResult> compare(WinningLotto winningLotto) {
+        return lottos.stream()
+                .map(lotto -> lotto.compare(winningLotto))
+                .collect(Collectors.toList());
     }
 
     private void validateNumberOfLotto(int numberOfLotto) {

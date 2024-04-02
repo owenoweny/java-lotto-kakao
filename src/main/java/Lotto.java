@@ -26,6 +26,10 @@ public class Lotto {
         return new Lotto();
     }
 
+    public WinningResult compare(WinningLotto winningLotto) {
+        return WinningResult.of(this, winningLotto);
+    }
+
     private void validateDuplication(List<Integer> pickedNumbers) {
         Set<Integer> set = new HashSet<>(pickedNumbers);
         if (pickedNumbers.size() != set.size()) {

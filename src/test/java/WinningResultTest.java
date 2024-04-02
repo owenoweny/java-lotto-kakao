@@ -13,7 +13,7 @@ public class WinningResultTest {
     @ParameterizedTest
     @MethodSource("provideLottosAndWinningResult")
     void 두_개의_로또의_당첨_여부를_계산한다(Lotto bought, WinningLotto winningLotto, WinningResult expectedResult) {
-        WinningResult actualResult = WinningResult.checkResult(bought, winningLotto);
+        WinningResult actualResult = WinningResult.of(bought, winningLotto);
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }
