@@ -21,14 +21,6 @@ public enum WinningResult {
         return prize;
     }
 
-    public static WinningResult checkResult(Lotto bought,WinningLotto winningLotto) {
-        int regularBallMatches = 0;
-
-        for (Integer number : bought.numbers()) {
-            if (winningLotto.containsNumber(number)) {
-                regularBallMatches++;
-            }
-        }
     public static WinningResult of(Lotto bought, WinningLotto winningLotto) {
         int regularBallMatches = (int) bought.numbers()
                 .stream()
@@ -39,6 +31,9 @@ public enum WinningResult {
     }
 
     private static WinningResult fromBallMatches(int regularBallMatches, boolean isBonusBallMatches) {
+        if (regularBallMatches < 3) {
+            return NONE;
+        }
         for (WinningResult winningResult : WinningResult.values()) {
             if (winningResult.regularBallMatches != regularBallMatches) {
                 continue;
