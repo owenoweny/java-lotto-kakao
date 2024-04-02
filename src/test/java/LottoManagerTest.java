@@ -1,3 +1,4 @@
+import domains.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -6,7 +7,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("LottoMachine 관련 테스트")
+@DisplayName("domains.LottoMachine 관련 테스트")
 public class LottoManagerTest {
     private LottoManager lottoManager;
     @BeforeEach

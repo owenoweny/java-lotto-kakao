@@ -1,6 +1,9 @@
+package domains;
+
+import utils.LottoUtils;
+
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Lotto {
     private final List<LottoNumber> lottoNumbers;

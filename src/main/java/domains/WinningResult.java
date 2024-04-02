@@ -1,3 +1,5 @@
+package domains;
+
 public enum WinningResult {
     FIRST(6, false, 2_000_000_000),
     SECOND(5, true, 30_000_000),

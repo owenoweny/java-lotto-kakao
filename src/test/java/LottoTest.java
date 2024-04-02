@@ -1,12 +1,12 @@
+import domains.Lotto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("Lotto 객체 관련 테스트")
+@DisplayName("domains.Lotto 객체 관련 테스트")
 public class LottoTest {
     @Test
     void 번호_범위를_벗어나면_예외를_발생시킨다() {
