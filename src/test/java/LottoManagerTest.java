@@ -7,7 +7,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("domains.LottoMachine 관련 테스트")
 public class LottoManagerTest {
     private LottoManager lottoManager;
 
