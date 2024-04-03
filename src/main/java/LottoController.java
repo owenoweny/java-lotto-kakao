@@ -11,15 +11,29 @@ public class LottoController {
     }
 
     public void run() {
-        int money = lottoConsoleView.getMoneyInput();
-        Lottos lottos = LottoMachine.issue(money);
-        lottoConsoleView.printIssuedLottos(lottos);
+        Lottos lottos = makeLottos();
+        LottoManager lottoManager = makeLottoManager(lottos);
+        showResult(lottoManager);
+    }
+
+    private void showResult(LottoManager lottoManager) {
+        lottoConsoleView.printWinningResult(lottoManager.winningResults());
+        lottoConsoleView.printRevenue(lottoManager.revenueRate());
+    }
+
+    private LottoManager makeLottoManager(Lottos lottos) {
         List<Integer> winningNumbersInput = lottoConsoleView.getWinningNumbersInput();
         int bonusBallInput = lottoConsoleView.getBonusBallInput();
         WinningLotto winningLotto = new WinningLotto(Lotto.from(winningNumbersInput), new LottoNumber(bonusBallInput));
-        LottoManager lottoManager = new LottoManager(lottos, winningLotto);
-        lottoConsoleView.printWinningResult(lottoManager.winningResults());
-        lottoConsoleView.printRevenue(lottoManager.revenueRate());
+        return new LottoManager(lottos, winningLotto);
+    }
+
+    private Lottos makeLottos() {
+        int money = lottoConsoleView.getMoneyInput();
+        LottoInputAmount lottoInputAmount = new LottoInputAmount(money);
+        Lottos lottos = LottoMachine.issue(lottoInputAmount);
+        lottoConsoleView.printIssuedLottos(lottos);
+        return lottos;
     }
 
     public static void main(String[] args) {
