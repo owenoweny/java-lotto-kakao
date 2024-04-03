@@ -1,4 +1,4 @@
-package domains;
+ package domains;
 
 import utils.LottoUtils;
 
@@ -13,6 +13,9 @@ public class LottoMachine {
             .collect(Collectors.toList());
     private static final int RANDOM_BEGIN_INCLUDE_INDEX = 0;
     private static final int RANDOM_END_EXCLUDE_INDEX = 6;
+
+    private LottoMachine() {
+    }
 
     public static Lottos issue(LottoInputAmount lottoInputAmount) {
         List<Lotto> lottoList = IntStream.range(0, lottoInputAmount.getNumberOfLottos())
