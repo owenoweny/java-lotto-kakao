@@ -13,13 +13,9 @@ public class LottoMachine {
             .collect(Collectors.toList());
     private static final int RANDOM_BEGIN_INCLUDE_INDEX = 0;
     private static final int RANDOM_END_EXCLUDE_INDEX = 6;
-    public static final int LOTTO_PRICE = 1000;
 
-    public static Lottos issue(int money) {
-        validateMoneyRange(money);
-        int numberOfLottos = money / LOTTO_PRICE;
-
-        List<Lotto> lottoList = IntStream.range(0, numberOfLottos)
+    public static Lottos issue(LottoInputAmount lottoInputAmount) {
+        List<Lotto> lottoList = IntStream.range(0, lottoInputAmount.getNumberOfLottos())
                 .mapToObj(i -> generateLotto())
                 .collect(Collectors.toList());
 
@@ -33,13 +29,5 @@ public class LottoMachine {
         );
 
         return new Lotto(lottoNumbers);
-    }
-
-
-
-    private static void validateMoneyRange(int money) {
-        if (money < LOTTO_PRICE) {
-            throw new RuntimeException("로또 구매 금액은 1000 이상이어야합니다.");
-        }
     }
 }
