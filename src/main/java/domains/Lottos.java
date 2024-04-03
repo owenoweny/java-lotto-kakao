@@ -11,7 +11,7 @@ public class Lottos {
         this.lottos = lottos;
     }
 
-    public List<WinningResult> compare(WinningLotto winningLotto) {
+    public List<WinningResult> checkWinning(WinningLotto winningLotto) {
         return lottos.stream()
                 .map(lotto -> WinningResult.of(lotto, winningLotto))
                 .collect(Collectors.toList());
