@@ -12,13 +12,6 @@ public class Lottos {
         this.lottos = lottos;
     }
 
-    public static Lottos merge(Lottos lottos1, Lottos lottos2) {
-        List<Lotto> merged = Stream.concat(lottos1.values().stream(), lottos2.values().stream())
-                .collect(Collectors.toList());
-
-        return new Lottos(merged);
-    }
-
     public List<WinningResult> checkWinning(WinningLotto winningLotto) {
         return lottos.stream()
                 .map(lotto -> WinningResult.of(lotto, winningLotto))

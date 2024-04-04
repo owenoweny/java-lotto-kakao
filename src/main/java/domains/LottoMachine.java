@@ -28,16 +28,8 @@ public class LottoMachine {
         return new Lottos(lottoList);
     }
 
-    public static Lottos issueAuto(int numberOfLottos) {
-        List<Lotto> lottoList = IntStream.range(0, numberOfLottos)
-                .mapToObj(i -> generateRandomLotto())
-                .collect(Collectors.toList());
-
-        return new Lottos(lottoList);
-    }
-
     private static Lotto generateRandomLotto() {
-        List<LottoNumber> lottoNumbers = LottoUtils.parsePickedNumbers(generateRandomLottoNumbers());
+        List<LottoNumber> lottoNumbers = LottoUtils.convertList(generateRandomLottoNumbers(), LottoNumber::new);
         return new Lotto(lottoNumbers);
     }
 

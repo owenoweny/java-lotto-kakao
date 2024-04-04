@@ -1,8 +1,10 @@
+import dtos.LottoDto;
+import dtos.LottoResultDto;
 import domains.*;
+import utils.LottoUtils;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class LottoController {
     private final LottoConsoleView lottoConsoleView;
@@ -18,8 +20,8 @@ public class LottoController {
     }
 
     private void showResult(LottoManager lottoManager) {
-        lottoConsoleView.printWinningResult(lottoManager.winningResults());
-        lottoConsoleView.printRevenue(lottoManager.revenueRate());
+        LottoResultDto lottoResultDto = LottoResultDto.of(lottoManager.winningResults(), lottoManager.revenueRate());
+        lottoConsoleView.printResult(lottoResultDto);
     }
 
     private LottoManager makeLottoManager(Lottos lottos) {
@@ -32,16 +34,20 @@ public class LottoController {
     private Lottos makeLottos() {
         int money = lottoConsoleView.getMoneyInput();
         int numberOfManualLottos = lottoConsoleView.getNumberOfManualInput();
-        LottoInputAmount lottoInputAmount = new LottoInputAmount(money, numberOfManualLottos);
 
-        List<Lotto> manualLottoNumbers = lottoConsoleView.getManualLottoNumbers(numberOfManualLottos)
-                .stream()
-                .map(Lotto::from)
-                .collect(Collectors.toList());
-        Lottos lottos = LottoMachine.issue(lottoInputAmount, manualLottoNumbers);
-        lottoConsoleView.printIssuedLottos(lottos, numberOfManualLottos);
+        Lottos lottos = make(money, numberOfManualLottos);
+        List<LottoDto> lottoDtos = LottoUtils.convertList(lottos.values(), LottoDto::from);
+        lottoConsoleView.printIssuedLottos(lottoDtos, numberOfManualLottos);
 
         return lottos;
+    }
+
+    //TODO : rename
+    private Lottos make(int money, int numberOfManualLottos) {
+        LottoInputAmount lottoInputAmount = new LottoInputAmount(money, numberOfManualLottos);
+        List<List<Integer>> manualLottoNumbersList = lottoConsoleView.getManualLottoNumbers(numberOfManualLottos);
+        List<Lotto> manualLottoNumbers = LottoUtils.convertList(manualLottoNumbersList, Lotto::from);
+        return LottoMachine.issue(lottoInputAmount, manualLottoNumbers);
     }
 
     public static void main(String[] args) {

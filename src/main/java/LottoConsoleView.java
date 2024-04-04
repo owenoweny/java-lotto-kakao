@@ -1,11 +1,10 @@
+import dtos.LottoDto;
+import dtos.LottoResultDto;
+import dtos.WinningResultDto;
 import domains.Lotto;
 import domains.Lottos;
-import domains.WinningResult;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,19 +20,18 @@ public class LottoConsoleView {
         return Integer.parseInt(scanner.nextLine());
     }
 
-    //TODO: DTO에 의존하도록 refactor
-    public void printIssuedLottos(Lottos lottos, int numberOfManualLottos) {
+    public void printIssuedLottos(List<LottoDto> lottoDtos, int numberOfManualLottos) {
         System.out.println("수동으로 "
                 + numberOfManualLottos
                 + "장, 자동으로 "
-                + (lottos.values().size() - numberOfManualLottos)
+                + (lottoDtos.size() - numberOfManualLottos)
                 + "개를 구매했습니다.");
-        printLottos(lottos);
+        printLottos(lottoDtos);
     }
 
-    private static void printLottos(Lottos lottos) {
-        lottos.values().stream()
-                .map(Lotto::values)
+    private static void printLottos(List<LottoDto> lottoDtos) {
+        lottoDtos.stream()
+                .map(LottoDto::getNumbers)
                 .forEach(System.out::println);
     }
 
@@ -49,30 +47,22 @@ public class LottoConsoleView {
         return Integer.parseInt(scanner.nextLine());
     }
 
-    public void printWinningResult(List<WinningResult> winningResults) {
-        System.out.println("당첨 통계\n" + "---------");
-        List<WinningResult> winningResultValues = Arrays.stream(WinningResult.values()).collect(Collectors.toList());
-        winningResultValues.remove(WinningResult.NONE);
-        Collections.reverse(winningResultValues);
-
-        for (WinningResult winningResultValue : winningResultValues) {
-            int count = (int) winningResults.stream().filter(winningResultValue::equals).count();
-            System.out.println(formatWinningResult(winningResultValue, count));
-        }
-    }
-
-    public void printRevenue(double revenueRate) {
-        System.out.println("총 수익률은 " + String.format("%.2f", revenueRate) + "입니다.");
-    }
-
-    private static String formatWinningResult(WinningResult winningResultValue, int count) {
-        return winningResultValue.regularBallMatches
+    private static String formatWinningResult(WinningResultDto winningResultDto) {
+        return winningResultDto.getRegularBallMatch()
                 + "개 일치"
-                + (winningResultValue.needBonusBall ? ", 보너스 볼 일치" : "")
+                + (winningResultDto.isNeedBonusBallMatch() ? ", 보너스 볼 일치" : "")
                 + " ("
-                + winningResultValue.prize + "원)- "
-                + count
+                + winningResultDto.getPrize() + "원)- "
+                + winningResultDto.getCount()
                 + "개";
+    }
+
+    public void printResult(LottoResultDto lottoResultDto) {
+        List<WinningResultDto> winningResultCount = lottoResultDto.getWinningResultDtos();
+        System.out.println("당첨 통계\n" + "---------");
+        winningResultCount
+                .forEach((winningResultDto) -> System.out.println(formatWinningResult(winningResultDto)));
+        System.out.println("총 수익률은 " + String.format("%.2f", lottoResultDto.getRevenueRate()) + "입니다.");
     }
 
     public int getNumberOfManualInput() {
@@ -88,7 +78,6 @@ public class LottoConsoleView {
                 .map(this::parseLottoNumberInput)
                 .collect(Collectors.toList());
     }
-
 
     private List<Integer> parseLottoNumberInput(String input) {
         return Arrays.stream(input.split(","))
