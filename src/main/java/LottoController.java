@@ -2,8 +2,7 @@ import domains.*;
 
 import java.util.List;
 import java.util.Scanner;
-
-import static domains.Lottos.merge;
+import java.util.stream.Collectors;
 
 public class LottoController {
     private final LottoConsoleView lottoConsoleView;
@@ -32,18 +31,20 @@ public class LottoController {
 
     private Lottos makeLottos() {
         int money = lottoConsoleView.getMoneyInput();
-        LottoInputAmount lottoInputAmount = new LottoInputAmount(money);
-
         int numberOfManualLottos = lottoConsoleView.getNumberOfManualInput();
+        LottoInputAmount lottoInputAmount = new LottoInputAmount(money, numberOfManualLottos);
+
         if (numberOfManualLottos < 1) {
             return new Lottos(List.of());
         }
-        List<List<Integer>> manualLottoNumbers = lottoConsoleView.getManualLottoNumbers(numberOfManualLottos);
-        Lottos manualLottos = LottoMachine.issueManual(manualLottoNumbers);
-        Lottos autoLottos = LottoMachine.issueAuto(lottoInputAmount.getNumberOfLottos() - numberOfManualLottos);
-        lottoConsoleView.printIssuedLottos(manualLottos, autoLottos);
+        List<Lotto> manualLottoNumbers = lottoConsoleView.getManualLottoNumbers(numberOfManualLottos)
+                .stream()
+                .map(Lotto::from)
+                .collect(Collectors.toList());
+        Lottos lottos = LottoMachine.issue(lottoInputAmount, manualLottoNumbers);
+        lottoConsoleView.printIssuedLottos(lottos, numberOfManualLottos);
 
-        return merge(manualLottos, autoLottos);
+        return lottos;
     }
 
     public static void main(String[] args) {

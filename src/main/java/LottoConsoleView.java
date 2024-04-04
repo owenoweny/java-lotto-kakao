@@ -21,20 +21,14 @@ public class LottoConsoleView {
         return Integer.parseInt(scanner.nextLine());
     }
 
-    public void printIssuedLottos(Lottos lottos) {
-        System.out.println(lottos.values().size() + "개를 구매했습니다.");
-        printLottos(lottos);
-        System.out.println();
-    }
-
-    public void printIssuedLottos(Lottos manualLottos, Lottos autoLottos) {
+    //TODO: DTO에 의존하도록 refactor
+    public void printIssuedLottos(Lottos lottos, int numberOfManualLottos) {
         System.out.println("수동으로 "
-                + manualLottos.values().size()
+                + numberOfManualLottos
                 + "장, 자동으로 "
-                + autoLottos.values().size()
+                + (lottos.values().size() - numberOfManualLottos)
                 + "개를 구매했습니다.");
-        printLottos(manualLottos);
-        printLottos(autoLottos);
+        printLottos(lottos);
     }
 
     private static void printLottos(Lottos lottos) {

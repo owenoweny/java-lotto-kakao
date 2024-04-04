@@ -17,6 +17,19 @@ public class LottoMachine {
     private LottoMachine() {
     }
 
+
+    //TODO : LottoMachine 인스턴스로 만들고 LottoInputAmount 필드로 갖고 있게??
+    public static Lottos issue(LottoInputAmount lottoInputAmount, List<Lotto> manualLottoList) {
+        int numberOfAutoLotto = lottoInputAmount.getNumberOfAutoLottos();
+
+        List<Lotto> lottoList = IntStream.range(0, numberOfAutoLotto)
+                .mapToObj((i) -> generateRandomLotto())
+                .collect(Collectors.toList());
+        lottoList.addAll(manualLottoList);
+
+        return new Lottos(lottoList);
+    }
+
     public static Lottos issueAuto(int numberOfLottos) {
         List<Lotto> lottoList = IntStream.range(0, numberOfLottos)
                 .mapToObj(i -> generateRandomLotto())
@@ -34,11 +47,12 @@ public class LottoMachine {
     }
 
     private static Lotto generateRandomLotto() {
-        Collections.shuffle(CANDIDATE_NUMBERS);
-        List<LottoNumber> lottoNumbers = LottoUtils.parsePickedNumbers(
-                CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX)
-        );
-
+        List<LottoNumber> lottoNumbers = LottoUtils.parsePickedNumbers(generateRandomLottoNumbers());
         return new Lotto(lottoNumbers);
+    }
+
+    private static List<Integer> generateRandomLottoNumbers() {
+        Collections.shuffle(CANDIDATE_NUMBERS);
+        return CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX);
     }
 }
