@@ -17,15 +17,23 @@ public class LottoMachine {
     private LottoMachine() {
     }
 
-    public static Lottos issue(LottoInputAmount lottoInputAmount) {
-        List<Lotto> lottoList = IntStream.range(0, lottoInputAmount.getNumberOfLottos())
-                .mapToObj(i -> generateLotto())
+    public static Lottos issueAuto(int numberOfLottos) {
+        List<Lotto> lottoList = IntStream.range(0, numberOfLottos)
+                .mapToObj(i -> generateRandomLotto())
                 .collect(Collectors.toList());
 
         return new Lottos(lottoList);
     }
 
-    private static Lotto generateLotto() {
+    public static Lottos issueManual(List<List<Integer>> lottoNumberList) {
+        List<Lotto> lottoList = lottoNumberList.stream()
+                .map(lottoNumbers -> new Lotto(LottoUtils.parsePickedNumbers(lottoNumbers)))
+                .collect(Collectors.toList());
+
+        return new Lottos(lottoList);
+    }
+
+    private static Lotto generateRandomLotto() {
         Collections.shuffle(CANDIDATE_NUMBERS);
         List<LottoNumber> lottoNumbers = LottoUtils.parsePickedNumbers(
                 CANDIDATE_NUMBERS.subList(RANDOM_BEGIN_INCLUDE_INDEX, RANDOM_END_EXCLUDE_INDEX)
