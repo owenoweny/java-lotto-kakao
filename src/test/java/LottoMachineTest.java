@@ -21,7 +21,6 @@ public class LottoMachineTest {
         assertThat(issue.values()).hasSize(numberOfLottos);
     }
 
-    // TODO : LottoMachine 인스턴스화해서 테스트 가능하게 만들기
     @ParameterizedTest
     @MethodSource("provideLottoInputAmountAndExpectedLottos")
     void 입력_객체에_해당하는_로또를_발행한다(LottoInputAmount lottoInputAmount, List<Lotto> manualLottoNumbers) {
@@ -34,8 +33,8 @@ public class LottoMachineTest {
                 Arguments.of(
                         new LottoInputAmount(10000, 2),
                         List.of(
-                                List.of(1, 2, 3, 4, 5, 6),
-                                List.of(1, 2, 3, 4, 5, 6)
+                                Lotto.from(List.of(1, 2, 3, 4, 5, 6)),
+                                Lotto.from(List.of(1, 2, 3, 4, 5, 6))
                         )
                 )
         );

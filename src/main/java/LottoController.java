@@ -34,9 +34,6 @@ public class LottoController {
         int numberOfManualLottos = lottoConsoleView.getNumberOfManualInput();
         LottoInputAmount lottoInputAmount = new LottoInputAmount(money, numberOfManualLottos);
 
-        if (numberOfManualLottos < 1) {
-            return new Lottos(List.of());
-        }
         List<Lotto> manualLottoNumbers = lottoConsoleView.getManualLottoNumbers(numberOfManualLottos)
                 .stream()
                 .map(Lotto::from)
