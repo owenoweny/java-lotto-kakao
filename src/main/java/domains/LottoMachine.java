@@ -17,7 +17,8 @@ public class LottoMachine {
     private LottoMachine() {
     }
 
-    public static Lottos issue(LottoInputAmount lottoInputAmount, List<Lotto> manualLottoList) {
+    public static Lottos issue(LottoInputAmount lottoInputAmount, List<List<Integer>> manualLottoNumbersList) {
+        List<Lotto> manualLottoList = LottoUtils.convertList(manualLottoNumbersList, Lotto::from);
         int numberOfAutoLotto = lottoInputAmount.getNumberOfAutoLottos();
 
         List<Lotto> lottoList = IntStream.range(0, numberOfAutoLotto)

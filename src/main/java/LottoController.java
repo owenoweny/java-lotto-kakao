@@ -14,8 +14,8 @@ public class LottoController {
     }
 
     public void run() {
-        Lottos lottos = makeLottos();
-        LottoManager lottoManager = makeLottoManager(lottos);
+        Lottos lottos = retriveLottos();
+        LottoManager lottoManager = retriveLottoManager(lottos);
         showResult(lottoManager);
     }
 
@@ -24,30 +24,29 @@ public class LottoController {
         lottoConsoleView.printResult(lottoResultDto);
     }
 
-    private LottoManager makeLottoManager(Lottos lottos) {
+    private LottoManager retriveLottoManager(Lottos lottos) {
         List<Integer> winningNumbersInput = lottoConsoleView.getWinningNumbersInput();
         int bonusBallInput = lottoConsoleView.getBonusBallInput();
         WinningLotto winningLotto = new WinningLotto(Lotto.from(winningNumbersInput), new LottoNumber(bonusBallInput));
         return new LottoManager(lottos, winningLotto);
     }
 
-    private Lottos makeLottos() {
+    private Lottos retriveLottos() {
         int money = lottoConsoleView.getMoneyInput();
         int numberOfManualLottos = lottoConsoleView.getNumberOfManualInput();
 
-        Lottos lottos = make(money, numberOfManualLottos);
+        Lottos lottos = issueLotto(money, numberOfManualLottos);
         List<LottoDto> lottoDtos = LottoUtils.convertList(lottos.values(), LottoDto::from);
         lottoConsoleView.printIssuedLottos(lottoDtos, numberOfManualLottos);
 
         return lottos;
     }
 
-    //TODO : rename
-    private Lottos make(int money, int numberOfManualLottos) {
+    private Lottos issueLotto(int money, int numberOfManualLottos) {
         LottoInputAmount lottoInputAmount = new LottoInputAmount(money, numberOfManualLottos);
         List<List<Integer>> manualLottoNumbersList = lottoConsoleView.getManualLottoNumbers(numberOfManualLottos);
-        List<Lotto> manualLottoNumbers = LottoUtils.convertList(manualLottoNumbersList, Lotto::from);
-        return LottoMachine.issue(lottoInputAmount, manualLottoNumbers);
+
+        return LottoMachine.issue(lottoInputAmount, manualLottoNumbersList);
     }
 
     public static void main(String[] args) {
